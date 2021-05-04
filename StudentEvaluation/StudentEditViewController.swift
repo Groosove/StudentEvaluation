@@ -9,23 +9,36 @@
 import UIKit
 
 class StudentEditViewController: UIViewController {
-	let editStudentSegue = "EditStudentSegue"
+	weak var delegate: StudentViewControllerDelegate?
 	
-	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if segue.identifier == editStudentSegue {
-			let destination = segue.destination as? StudentInfoListCell
-		}
+	var indexPath: IndexPath?
+	var firstName = ""
+	var secondName = ""
+	var averageEval = ""
+	
+	override func viewDidLoad() {
+			super.viewDidLoad()
+			
+		firstNameLabel.text = firstName
+		secondNameLabel.text = secondName
+		averageEvalLabel.text = averageEval
 	}
-	
-
 	@IBOutlet weak var firstNameLabel: UITextField!
 	@IBOutlet weak var secondNameLabel: UITextField!
 	@IBOutlet weak var averageEvalLabel: UITextField!
 	
 	@IBAction func saveButton(_ sender: Any) {
-		print("\(firstNameLabel.text)")
-		print("\(secondNameLabel.text)")
-		print("\(averageEvalLabel.text)")
+		if indexPath == nil {
+			Student.testData.append(Student(firstName: firstNameLabel.text!,
+											secondName: secondNameLabel.text!,
+											evalution: UInt8(averageEvalLabel.text!)!))
+			indexPath?.row = Student.testData.count - 1
+		}
+		var student = Student.testData[indexPath!.row]
+		student.firstName = firstNameLabel.text!
+		student.secondName = secondNameLabel.text!
+		student.evalution = UInt8(averageEvalLabel.text!)!
+		delegate?.configure(with: student, index: indexPath!)
 	}
 	@IBAction func cancelledButton(_ sender: Any) {
 		

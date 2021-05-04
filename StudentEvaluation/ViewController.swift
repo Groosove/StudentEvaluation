@@ -8,7 +8,28 @@
 
 import UIKit
 
-class StudentViewController: UITableViewController {
+protocol StudentViewControllerDelegate: class {
+	func configure(with student: Student, index indexPath: IndexPath)
+}
+
+class StudentViewController: UITableViewController, StudentViewControllerDelegate {
+	
+	let editStudentSegue = "EditStudentSegue"
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if segue.identifier == editStudentSegue,
+		   let destination = segue.destination as? StudentEditViewController,
+		   let cell = sender as? StudentInfoListCell,
+		   let indexPath = tableView.indexPath(for: cell) {
+			let student = Student.testData[indexPath.row]
+			destination.firstName = student.firstName
+			destination.secondName = student.secondName
+			destination.averageEval = String(student.evalution)
+			destination.indexPath = indexPath
+			destination.delegate = self
+		}
+	}
+	
 	enum StudentRow: Int, CaseIterable {
 		case fullname
 		case evaluation
@@ -25,8 +46,10 @@ class StudentViewController: UITableViewController {
 	var student: Student?
 	let studentCellId = "Student"
 	
-	func configure(with student: Student) {
-		self.student = student
+	func configure(with student: Student, index indexPath: IndexPath) {
+		Student.testData[indexPath.row] = student
+		tableView.reloadRows(at: [indexPath], with: .none)
+		print(student)
 	}
 }
 
