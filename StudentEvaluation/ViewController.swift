@@ -14,10 +14,9 @@ protocol StudentControllerDelegate: class {
 
 class StudentViewController: UITableViewController, StudentControllerDelegate {
 	let editStudentSegue = "EditStudentSegue"
-	let addNewStudentId = "AddNewStudentSegueId"
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		guard let destination = segue.destination as? StudentEditViewController else { return }
 		if segue.identifier == editStudentSegue,
-		   let destination = segue.destination as? StudentEditViewController,
 		   let cell = sender as? StudentInfoListCell,
 		   let indexPath = tableView.indexPath(for: cell) {
 			let student = Student.testData[indexPath.row]
@@ -25,13 +24,8 @@ class StudentViewController: UITableViewController, StudentControllerDelegate {
 			destination.secondName = student.secondName
 			destination.averageEval = String(student.evalution)
 			destination.indexPath = indexPath
-			destination.delegate = self
 		}
-		if segue.identifier == addNewStudentId,
-			let destination = segue.destination as? StudentEditViewController {
-			destination.delegate = self
-			destination.newStudent = true
-		}
+		destination.delegate = self
 	}
 	
 	
@@ -41,16 +35,11 @@ class StudentViewController: UITableViewController, StudentControllerDelegate {
 	func configure(with student: Student, index indexPath: IndexPath? = nil) {
 		if let index = indexPath {
 			Student.testData[index.row] = student
-			tableView.reloadRows(at: [index], with: .none)
-			print(index.row)
+			tableView.reloadRows(at: [index], with: .fade)
 		} else {
-			print("Toot")
 			let indexPath = IndexPath(row: Student.testData.count - 1, section: 0)
 			tableView.insertRows(at: [indexPath], with: .fade)
-			print("Toot")
 		}
-		
-		
 	}
 }
 
