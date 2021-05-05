@@ -10,20 +10,14 @@ import UIKit
 import CoreData
 class StudentEditViewController: UIViewController {
 	var indexPath: IndexPath?
-	var firstName = ""
-	var secondName = ""
-	var averageEval = ""
 	var newStudent = true
 	weak var delegate: StudentControllerDelegate?
 	
 
 	override func viewDidLoad() {
 			super.viewDidLoad()
-			
-		firstNameLabel.text = firstName
-		secondNameLabel.text = secondName
-		averageEvalLabel.text = averageEval
 	}
+	
 	@IBOutlet weak var firstNameLabel: UITextField!
 	@IBOutlet weak var secondNameLabel: UITextField!
 	@IBOutlet weak var averageEvalLabel: UITextField!
