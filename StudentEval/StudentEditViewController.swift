@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import CoreData
 class StudentEditViewController: UIViewController {
 	var indexPath: IndexPath?
 	var firstName = ""
@@ -31,15 +31,29 @@ class StudentEditViewController: UIViewController {
 	@IBAction func saveButton(_ sender: Any) {
 		if !checkLabel() || !newStudent { return }
 		if indexPath == nil {
-			Student.testData.append(Student(firstName: firstNameLabel.text!,
-											secondName: secondNameLabel.text!,
-											evalution: UInt8(averageEvalLabel.text!)!))
+			guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+			  let managedContext = appDelegate.persistentContainer.viewContext
+			  let entity = NSEntityDescription.entity(forEntityName: "Student", in: managedContext)!
+			  
+			  let student = NSManagedObject(entity: entity,
+										   insertInto: managedContext)
+			  
+			student.setValue(firstNameLabel.text!, forKey: "firstName")
+			student.setValue(secondNameLabel.text!, forKey: "secondName")
+			student.setValue(averageEvalLabel.text!, forKey: "averageEval")
+			
+			do {
+				try managedContext.save()
+				delegate?.student.append(student)
+			  } catch let error as NSError {
+				print("Could not save. \(error), \(error.userInfo)")
+			  }
 		}
-		var student = Student.testData[indexPath?.row ?? Student.testData.count - 1]
-		student.firstName = firstNameLabel.text!
-		student.secondName = secondNameLabel.text!
-		student.evalution = UInt8(averageEvalLabel.text!)!
-		delegate?.configure(with: student, index: indexPath)
+		let student = delegate?.student[indexPath?.row ?? (delegate?.student.count)! - 1]
+		student?.setValue(firstNameLabel.text!, forKey: "firstName")
+		student?.setValue(secondNameLabel.text!, forKey: "secondName")
+		student?.setValue(averageEvalLabel.text!, forKey: "averageEval")
+		delegate?.configure(with: student!, index: indexPath)
 		self.navigationController?.popViewController(animated: true)
 	}
 	
