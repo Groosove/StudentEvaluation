@@ -38,9 +38,9 @@ class StudentViewController: UITableViewController, StudentControllerDelegate {
 		   let cell = sender as? StudentInfoListCell,
 		   let indexPath = tableView.indexPath(for: cell) {
 			let student = self.student[indexPath.row]
-			destination.firstNameLabel.text = student.value(forKey: "firstName") as? String
-			destination.secondNameLabel.text = student.value(forKey: "secondName") as? String
-			destination.averageEvalLabel.text = student.value(forKey: "averageEval") as? String
+			destination.firstName = student.value(forKey: "firstName") as! String
+			destination.secondName = student.value(forKey: "secondName") as! String
+			destination.averageEval = student.value(forKey: "averageEval") as! String
 			destination.indexPath = indexPath
 		}
 		destination.delegate = self
