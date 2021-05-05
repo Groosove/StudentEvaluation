@@ -13,9 +13,10 @@ class StudentEditViewController: UIViewController {
 	var firstName = ""
 	var secondName = ""
 	var averageEval = ""
-	var newStudent = false
+	var newStudent = true
 	weak var delegate: StudentControllerDelegate?
 	
+
 	override func viewDidLoad() {
 			super.viewDidLoad()
 			
@@ -28,6 +29,7 @@ class StudentEditViewController: UIViewController {
 	@IBOutlet weak var averageEvalLabel: UITextField!
 	
 	@IBAction func saveButton(_ sender: Any) {
+		if !checkLabel() || !newStudent { return }
 		if indexPath == nil {
 			Student.testData.append(Student(firstName: firstNameLabel.text!,
 											secondName: secondNameLabel.text!,
@@ -43,6 +45,30 @@ class StudentEditViewController: UIViewController {
 	
 	@IBAction func cancelledButton(_ sender: Any) {
 		self.navigationController?.popViewController(animated: true)
+		newStudent = false
+	}
+	
+	func checkLabel() -> Bool {
+		let alertFirstName = UIAlertController(title: "Error", message: "Имя должно содеражать только Русские или Английские символы", preferredStyle: .alert)
+		alertFirstName.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in NSLog("The \"OK\" alert occured.")}))
+		let alertSecondeName = UIAlertController(title: "Error", message: "Фамилия должна содеражать только Русские или Английские символы", preferredStyle: .alert)
+		alertSecondeName.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in NSLog("The \"OK\" alert occured.")}))
+		let alertAverageEval = UIAlertController(title: "Error", message: "Оценка может быть только от 1...5", preferredStyle: .alert)
+		alertAverageEval.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in NSLog("The \"OK\" alert occured.")}))
+		
+		guard firstNameLabel.text?.rangeOfCharacter(from: CharacterSet.controlCharacters) == nil &&
+			firstNameLabel.text?.rangeOfCharacter(from: CharacterSet.whitespacesAndNewlines) == nil &&
+			firstNameLabel.text?.rangeOfCharacter(from: CharacterSet.decimalDigits) == nil &&
+			firstNameLabel.text?.rangeOfCharacter(from: CharacterSet.letters) != nil else { self.present(alertFirstName, animated: true, completion: nil); return false }
+		guard secondNameLabel.text?.rangeOfCharacter(from: CharacterSet.controlCharacters) == nil &&
+			secondNameLabel.text?.rangeOfCharacter(from: CharacterSet.whitespacesAndNewlines) == nil &&
+			secondNameLabel.text?.rangeOfCharacter(from: CharacterSet.decimalDigits) == nil &&
+			secondNameLabel.text?.rangeOfCharacter(from: CharacterSet.letters) != nil else { self.present(alertFirstName, animated: true, completion: nil); return false }
+		
+		guard let value = UInt8(averageEvalLabel.text!) else { self.present(alertAverageEval, animated: true, completion: nil); return false }
+		
+		if !(1...5).contains(value) { return false }
+		return true
 	}
 
 }
