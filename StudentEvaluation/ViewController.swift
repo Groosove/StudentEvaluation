@@ -8,14 +8,13 @@
 
 import UIKit
 
-protocol StudentViewControllerDelegate: class {
-	func configure(with student: Student, index indexPath: IndexPath)
+protocol StudentControllerDelegate: class {
+    func configure(with student: Student, index indexPath: IndexPath?)
 }
 
-class StudentViewController: UITableViewController, StudentViewControllerDelegate {
-	
+class StudentViewController: UITableViewController, StudentControllerDelegate {
 	let editStudentSegue = "EditStudentSegue"
-	
+	let addNewStudentId = "AddNewStudentSegueId"
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if segue.identifier == editStudentSegue,
 		   let destination = segue.destination as? StudentEditViewController,
@@ -28,28 +27,30 @@ class StudentViewController: UITableViewController, StudentViewControllerDelegat
 			destination.indexPath = indexPath
 			destination.delegate = self
 		}
-	}
-	
-	enum StudentRow: Int, CaseIterable {
-		case fullname
-		case evaluation
-	
-		func outputText(for students: Student) -> String? {
-				switch self {
-				case .fullname: return (students.firstName + " " + students.secondName)
-				case .evaluation:
-					return String(students.evalution)
-			}
+		if segue.identifier == addNewStudentId,
+			let destination = segue.destination as? StudentEditViewController {
+			destination.delegate = self
+			destination.newStudent = true
 		}
 	}
+	
 	
 	var student: Student?
 	let studentCellId = "Student"
 	
-	func configure(with student: Student, index indexPath: IndexPath) {
-		Student.testData[indexPath.row] = student
-		tableView.reloadRows(at: [indexPath], with: .none)
-		print(student)
+	func configure(with student: Student, index indexPath: IndexPath? = nil) {
+		if let index = indexPath {
+			Student.testData[index.row] = student
+			tableView.reloadRows(at: [index], with: .none)
+			print(index.row)
+		} else {
+			print("Toot")
+			let indexPath = IndexPath(row: Student.testData.count - 1, section: 0)
+			tableView.insertRows(at: [indexPath], with: .fade)
+			print("Toot")
+		}
+		
+		
 	}
 }
 
@@ -66,6 +67,13 @@ extension StudentViewController {
 		cell.fullName.text = student.firstName + " " + student.secondName
 		cell.averageEvaluation.text = String(student.evalution)
 		return cell
+	}
+	
+	override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+		if editingStyle == .delete {
+			Student.testData.remove(at: indexPath.row)
+			tableView.deleteRows(at: [indexPath], with: .fade)
+		}
 	}
 }
 

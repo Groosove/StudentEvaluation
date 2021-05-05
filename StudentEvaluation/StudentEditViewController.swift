@@ -9,12 +9,12 @@
 import UIKit
 
 class StudentEditViewController: UIViewController {
-	weak var delegate: StudentViewControllerDelegate?
-	
 	var indexPath: IndexPath?
 	var firstName = ""
 	var secondName = ""
 	var averageEval = ""
+	var newStudent = false
+	weak var delegate: StudentControllerDelegate?
 	
 	override func viewDidLoad() {
 			super.viewDidLoad()
@@ -32,15 +32,20 @@ class StudentEditViewController: UIViewController {
 			Student.testData.append(Student(firstName: firstNameLabel.text!,
 											secondName: secondNameLabel.text!,
 											evalution: UInt8(averageEvalLabel.text!)!))
-			indexPath?.row = Student.testData.count - 1
+			let student = Student.testData[Student.testData.count - 1]
+			print(student)
+			delegate?.configure(with: student, index: nil)
+		} else {
+			var student = Student.testData[indexPath!.row]
+			student.firstName = firstNameLabel.text!
+			student.secondName = secondNameLabel.text!
+				student.evalution = UInt8(averageEvalLabel.text!)!
+			delegate?.configure(with: student, index: indexPath!)
 		}
-		var student = Student.testData[indexPath!.row]
-		student.firstName = firstNameLabel.text!
-		student.secondName = secondNameLabel.text!
-		student.evalution = UInt8(averageEvalLabel.text!)!
-		delegate?.configure(with: student, index: indexPath!)
+		self.navigationController?.popViewController(animated: true)
 	}
 	@IBAction func cancelledButton(_ sender: Any) {
-		
+	self.navigationController?.popViewController(animated: true)
 	}
+
 }
