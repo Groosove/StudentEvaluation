@@ -19,11 +19,10 @@ class StudentViewController: UITableViewController, StudentControllerDelegate {
 	let studentCellId = "Student"
 	var student: [NSManagedObject] = []
 	
+	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		
-		guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-		  let managedContext = appDelegate.persistentContainer.viewContext
+		let managedContext = CoreDataStack.managedObjectContext
 		  let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Student")
 		
 		do {
@@ -73,8 +72,7 @@ extension StudentViewController {
 	
 	override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 		if editingStyle == .delete {
-			guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-			let managedContext = appDelegate.persistentContainer.viewContext
+			let managedContext = CoreDataStack.managedObjectContext
 			do {
 				managedContext.delete(student[indexPath.row])
 				student.remove(at: indexPath.row)

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1481D5AA2643EE7600633010 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1481D5A92643EE7600633010 /* CoreDataStack.swift */; };
 		4A4589322643550F0091F68E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A4589312643550F0091F68E /* Main.storyboard */; };
 		4AA10EC126433A8C00F4785B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA10EC026433A8C00F4785B /* AppDelegate.swift */; };
 		4AA10EC526433A8C00F4785B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA10EC426433A8C00F4785B /* ViewController.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1481D5A92643EE7600633010 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		4A4589312643550F0091F68E /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		4AA10EBD26433A8C00F4785B /* StudentEval.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StudentEval.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AA10EC026433A8C00F4785B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 			isa = PBXGroup;
 			children = (
 				4AA10EC026433A8C00F4785B /* AppDelegate.swift */,
+				1481D5A92643EE7600633010 /* CoreDataStack.swift */,
 				4AA10EC426433A8C00F4785B /* ViewController.swift */,
 				4AA10EE426433B8200F4785B /* StudentInfoViewCell.swift */,
 				4A4589312643550F0091F68E /* Main.storyboard */,
@@ -146,6 +149,7 @@
 				4AA10EC526433A8C00F4785B /* ViewController.swift in Sources */,
 				4AA10EC126433A8C00F4785B /* AppDelegate.swift in Sources */,
 				4AA10EE526433B8200F4785B /* StudentInfoViewCell.swift in Sources */,
+				1481D5AA2643EE7600633010 /* CoreDataStack.swift in Sources */,
 				4AA10EE226433B4E00F4785B /* StudentEditViewController.swift in Sources */,
 				4AA10ECB26433A8C00F4785B /* StudentEval.xcdatamodeld in Sources */,
 			);
@@ -289,6 +293,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R7476264FZ;
 				INFOPLIST_FILE = StudentEval/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -308,6 +313,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R7476264FZ;
 				INFOPLIST_FILE = StudentEval/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

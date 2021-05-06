@@ -29,9 +29,7 @@ class StudentEditViewController: UIViewController {
 	@IBOutlet weak var averageEvalLabel: UITextField!
 	
 	@IBAction func saveButton(_ sender: Any) {
-		guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, !checkLabel() || !newStudent else { return }
-		
-		let managedContext = appDelegate.persistentContainer.viewContext
+		let managedContext = CoreDataStack.managedObjectContext
 		let entity = NSEntityDescription.entity(forEntityName: "Student", in: managedContext)!
 		let student = (indexPath != nil) ? delegate?.student[indexPath!.row] : NSManagedObject(entity: entity, insertInto: managedContext)
 		
